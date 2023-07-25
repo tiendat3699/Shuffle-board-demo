@@ -45,7 +45,7 @@ public class Disc : MonoBehaviour
 
     public void Move(Vector2 moveMoment) {
         if(!NotThrowable) {
-            transform.Translate(moveMoment * 2f);
+            _rigibody.velocity = moveMoment * 2f;
         }
     }
 

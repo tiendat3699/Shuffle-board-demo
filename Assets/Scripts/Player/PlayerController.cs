@@ -83,8 +83,8 @@ public class PlayerController : MonoBehaviour
 
     private void RotateDisc(PointerEventData eventData) {
         float rotX = eventData.delta.normalized.x;
-        Vector3 newDir = Quaternion.AngleAxis(-rotX * 1.5f, Vector3.up) * _dirThrow;
-        float diffAgnle = Vector3.Angle(newDir, _discTransform.forward);
+        Vector3 newDir = Quaternion.AngleAxis(-rotX * 1.8f, Vector3.up) * _dirThrow;
+        float diffAgnle = Vector3.Angle(newDir, Vector3.forward);
         if(diffAgnle >= -45 && diffAgnle <= 45) {
             _disc.Rotate(newDir);
             _dirThrow = newDir;
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         if(_transX > 2) _transX = 2;
         if(_transX < -2) _transX = -2;
         if(_transX > -2f && _transX < 2) {
-            _disc.Move(_dirMove * Time.fixedDeltaTime);
+            _disc.Move(_dirMove);
         }
     }
 
