@@ -1,78 +1,97 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
+public enum PlayerType{
+    P1,
+    P2,
+}
+
 public class RoundManager : Singleton<RoundManager>
 {
-    [SerializeField] private int maxTurn;
-    [SerializeField] private List<PlayerBase> players = new List<PlayerBase>();
-    [SerializeField] private Vector3 spawnPosition;
-    private List<Disc> discList = new List<Disc>();
-    public int currentPlayer {get; private set;}
-    private int currentTurn;
+    [SerializeField] private int _maxTurn;
+    [SerializeField] private PlayerBase _player1;
+    [SerializeField] private PlayerBase _player2;
+    [SerializeField] private Vector3 _spawnPosition;
+    private List<Disc> _discList = new List<Disc>();
+    public PlayerType CurrentPlayer {get; private set;}
+    private int _currentTurn;
     public event Action<Transform> OnDiscSpawm;
-    // params (playerIndex, totalScore, newScorePlus)
-    public event Action<int, int, int> OnScoreUpdate;
+
+    // params (P1Score, P2Score)
+    public event Action<int, int> OnScoreUpdate;
 
     private void StartTurn() {
-        Disc disc = Instantiate(players[currentPlayer].discPrefabs, spawnPosition, Quaternion.identity);
+        Disc discPrefab = CurrentPlayer == PlayerType.P1 ? _player1.DiscPrefabs : _player2.DiscPrefabs;
+        Disc disc = Instantiate(discPrefab, _spawnPosition, Quaternion.identity);
         OnDiscSpawm?.Invoke(disc.transform);
-        discList.Add(disc);
+        _discList.Add(disc);
     }
 
-    public void StartThrow() {
-        StartCoroutine(CheckDiscMoving());
+    public async void StartThrow() {
+        await CheckDiscMoving();
     }
 
     private void Start() {
-        currentTurn = 1;
+        _currentTurn = 1;
         StartTurn();
     }
 
-    private IEnumerator CheckDiscMoving() {
-        yield return new WaitForSeconds(0.1f);
+
+    private async UniTask CheckDiscMoving() {
+        //wait for first disc spawn;
+        await UniTask.WaitForSeconds(0.1f);
 
         int distStopCount;
-        int[] scores;
+        int p1NewScores;
+        int p2NewScores;
 
         //check all disc moving
         do
         {
-            scores = new int[players.Count];
+            p1NewScores = 0; 
+            p2NewScores = 0;
             distStopCount = 0;
-            for(int i = 0; i < discList.Count; i++) {
+            for(int i = 0; i < _discList.Count; i++) {
                 // check and add new score;
-                scores[discList[i].owner] += discList[i].score;
-                //count dist not moving
-                distStopCount += discList[i].stop ? 1 : -1;
+                if(_discList[i].Owner == PlayerType.P1) {
+                    p1NewScores += _discList[i].Score;
+                } else 
+                {
+                    p2NewScores += _discList[i].Score;
+                }
+                //count disc not moving
+                distStopCount += _discList[i].Stop ? 1 : -1;
             }
 
-            yield return new WaitForEndOfFrame();
+            await UniTask.WaitForSeconds(0.1f);
             
-        } while (distStopCount != discList.Count);
+        } while (distStopCount != _discList.Count);
 
-        //update player score when all disc not moving
-        for(int i = 0; i < players.Count; i++) {
-            int diffScore = scores[i] - players[i].score;
-            players[i].score = scores[i];
-            OnScoreUpdate?.Invoke(i, players[i].score, diffScore);
-        }
+        //calc different score for UI
+        int diffScore1 = _player1.Score = p1NewScores;
+        int diffScore2 = _player2.Score = p2NewScores;
 
-        currentPlayer++;
-        if(currentPlayer >= players.Count) {
-            currentPlayer = 0;
-            currentTurn++;
+        // update player score when all disc not moving
+        _player1.Score = p1NewScores;
+        _player2.Score = p2NewScores;
+        OnScoreUpdate?.Invoke(_player1.Score, _player2.Score);
+
+        CurrentPlayer ++;
+        if((int)CurrentPlayer >= 2) {
+            CurrentPlayer = 0;
+            _currentTurn++;
         }
-        if(currentTurn <= maxTurn) {
+        if(_currentTurn <= _maxTurn) {
             StartTurn();
         } else {
-            if(players[0].score > players[1].score) {
+            if(_player1.Score > _player2.Score) {
                 Debug.Log("Player 1 Win!!!");
-            } else if(players[0].score < players[1].score) {
+            } else if(_player1.Score < _player2.Score) {
                 Debug.Log("Player 2 Win!!!");
             } else {
                 Debug.Log("Draw!!!");
@@ -84,7 +103,7 @@ public class RoundManager : Singleton<RoundManager>
 #if UNITY_EDITOR
     private void OnDrawGizmos() {
         Handles.color = new Color32(0, 255, 0, 150);
-        Handles.DrawSolidDisc(spawnPosition, Vector3.up, 0.3f);
+        Handles.DrawSolidDisc(_spawnPosition, Vector3.up, 0.3f);
     }
 #endif
 }

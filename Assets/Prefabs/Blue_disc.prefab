@@ -213,9 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2388a7710504e4ab599a86eb4b11f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrow: {fileID: 3270503618460985582}
-  rb: {fileID: 3735718226131389651}
-  meshCollider: {fileID: 3735718226131389654}
-  dropOut: 0
-  owner: 0
-  score: 0
+  _arrow: {fileID: 3270503618460985582}
+  _rigibody: {fileID: 3735718226131389651}
+  _meshCollider: {fileID: 3735718226131389654}
+  DropOut: 0
+  Owner: 0
+  Score: 0

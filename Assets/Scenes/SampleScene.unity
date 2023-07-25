@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 27742721}
   - component: {fileID: 27742722}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Drop zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1058,8 +1058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff11da0f3907534b96844d24e7e3379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1Score: {fileID: 1213328108}
-  P2Score: {fileID: 895425021}
+  _p1Score: {fileID: 1213328108}
+  _p2Score: {fileID: 895425021}
 --- !u!1 &1074579194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,13 +1268,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e10dcbb4772be4468f59eeb9f2895b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTurn: 4
-  players:
-  - score: 0
-    discPrefabs: {fileID: 535711027734899320, guid: c8e4a0e500e56614a8d18e5e107ac191, type: 3}
-  - score: 0
-    discPrefabs: {fileID: 3435734839501825081, guid: 5b8bdcc33c826164f89bbb93100b680f, type: 3}
-  spawnPosition: {x: 0, y: 0, z: -16}
+  _maxTurn: 4
+  _player1:
+    Score: 0
+    DiscPrefabs: {fileID: 535711027734899320, guid: c8e4a0e500e56614a8d18e5e107ac191, type: 3}
+  _player2:
+    Score: 0
+    DiscPrefabs: {fileID: 3435734839501825081, guid: 5b8bdcc33c826164f89bbb93100b680f, type: 3}
+  _spawnPosition: {x: 0, y: 0, z: -16}
 --- !u!4 &1196738557
 Transform:
   m_ObjectHideFlags: 0
@@ -1304,7 +1305,7 @@ GameObject:
   - component: {fileID: 1198729829}
   - component: {fileID: 1198729828}
   m_Layer: 7
-  m_Name: Cube (1)
+  m_Name: 2 poin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1337,7 +1338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b4abd493065c840a1ac8fc977eb9e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 2
+  _score: 2
 --- !u!65 &1198729829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1676,7 +1677,7 @@ GameObject:
   - component: {fileID: 1636005292}
   - component: {fileID: 1636005291}
   m_Layer: 7
-  m_Name: Cube
+  m_Name: 3 poin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1709,7 +1710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b4abd493065c840a1ac8fc977eb9e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 3
+  _score: 3
 --- !u!65 &1636005292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1804,11 +1805,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da058576b4501d04e822ffd4e46e67e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 963194227}
-  lineRenderer: {fileID: 1906286028}
-  rotateController: {fileID: 1477732665}
-  sliderCurveForce: {fileID: 624439495}
-  transX: 0
+  _mainCamera: {fileID: 963194227}
+  _lineRenderer: {fileID: 1906286028}
+  _rotateController: {fileID: 1477732665}
+  _sliderCurveForce: {fileID: 624439495}
 --- !u!114 &1906286026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2047,7 +2047,7 @@ GameObject:
   - component: {fileID: 2117067750}
   - component: {fileID: 2117067749}
   m_Layer: 7
-  m_Name: Cube (2)
+  m_Name: 1 poin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2080,7 +2080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b4abd493065c840a1ac8fc977eb9e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 1
+  _score: 1
 --- !u!65 &2117067750
 BoxCollider:
   m_ObjectHideFlags: 0
