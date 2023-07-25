@@ -73,8 +73,13 @@ public class PlayerController : MonoBehaviour
             _dragging = false;
             _lineRenderer.enabled = false;
             float distance = Vector3.Distance(_startPos, _endPos);
-            _disc.Owner = RoundManager.Instance.CurrentPlayer;
-            _disc.Throw(_dirThrow.normalized, distance, _sliderCurveForce.value);
+
+            if(distance > 2f) {
+                _disc.Throw(_dirThrow.normalized, distance, _sliderCurveForce.value);
+            } else {
+                _rotateController.gameObject.SetActive(false);
+            }
+
             _sliderCurveForce.gameObject.SetActive(false);
             _sliderCurveForce.value = 0;
             _transX = 0;

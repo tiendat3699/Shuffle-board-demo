@@ -28,6 +28,7 @@ public class RoundManager : Singleton<RoundManager>
     private void StartTurn() {
         Disc discPrefab = CurrentPlayer == PlayerType.P1 ? _player1.DiscPrefabs : _player2.DiscPrefabs;
         Disc disc = Instantiate(discPrefab, _spawnPosition, Quaternion.identity);
+        disc.Owner = CurrentPlayer;
         OnDiscSpawm?.Invoke(disc.transform);
         _discList.Add(disc);
     }
