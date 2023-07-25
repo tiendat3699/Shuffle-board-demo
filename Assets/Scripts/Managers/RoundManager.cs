@@ -43,8 +43,7 @@ public class RoundManager : Singleton<RoundManager>
 
 
     private async UniTask CheckDiscMoving() {
-        //wait for first disc spawn;
-        await UniTask.WaitForSeconds(0.1f);
+        await UniTask.Delay(100);
 
         int distStopCount;
         int p1NewScores;
@@ -60,15 +59,14 @@ public class RoundManager : Singleton<RoundManager>
                 // check and add new score;
                 if(_discList[i].Owner == PlayerType.P1) {
                     p1NewScores += _discList[i].Score;
-                } else 
-                {
+                } else {
                     p2NewScores += _discList[i].Score;
                 }
                 //count disc not moving
                 distStopCount += _discList[i].Stop ? 1 : -1;
             }
 
-            await UniTask.WaitForSeconds(0.1f);
+            await UniTask.Delay(100);
             
         } while (distStopCount != _discList.Count);
 

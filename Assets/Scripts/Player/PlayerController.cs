@@ -36,14 +36,13 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-
         HandleMoveDisc();
         HandleControlForce();
-        RotateControllerFollow();
-
     }
 
-    private void RotateControllerFollow() {
+    private void LateUpdate()
+    {
+        //make _rotateController follow disc
         _rotateController.position = _mainCamera.WorldToScreenPoint(_discTransform.position + Vector3.down * 2f); 
     }
 
