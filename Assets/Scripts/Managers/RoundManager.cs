@@ -79,11 +79,9 @@ public class RoundManager : Singleton<RoundManager>
         _player2.Score = p2NewScores;
         OnScoreUpdate?.Invoke(_player1.Score, _player2.Score);
 
-        CurrentPlayer ++;
-        if((int)CurrentPlayer >= 2) {
-            CurrentPlayer = 0;
-            _currentTurn++;
-        }
+        //change current player after throw
+        CurrentPlayer = CurrentPlayer == PlayerType.P1 ? PlayerType.P2 : PlayerType.P1;
+
         if(_currentTurn <= _maxTurn) {
             StartTurn();
         } else {
